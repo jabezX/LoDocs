@@ -57,3 +57,28 @@ export const getDocument = async ({
     console.log('Error whie fetching document: ', error);
   }
 };
+
+export const updateDocument = async (roomId: string, title: string) => {
+  try {
+    const updatedRoom = await liveblocks.updateRoom(roomId, {
+      metadata: {
+        title
+      }
+    });
+
+    revalidatePath('/');
+
+    return parseStringify(updatedRoom);
+  } catch (error) {
+    console.log('error while updating doc', error);
+  }
+};
+
+export const getDocuments = async (email: string) => {
+  try {
+    const rooms = await liveblocks.getRooms({ userId: email });
+    return parseStringify(rooms);
+  } catch (error) {
+    console.log('Error whie fetching documents: ', error);
+  }
+};
