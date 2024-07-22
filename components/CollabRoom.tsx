@@ -17,7 +17,12 @@ import { Input } from './ui/input';
 import Image from 'next/image';
 import { updateDocument } from '@/lib/actions/room.actions';
 
-const CollabRoom = ({ roomId, roomMetadata }: CollaborativeRoomProps) => {
+const CollabRoom = ({
+  roomId,
+  roomMetadata,
+  users,
+  currentUserType
+}: CollaborativeRoomProps) => {
   const clerk = useClerk();
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -49,9 +54,8 @@ const CollabRoom = ({ roomId, roomMetadata }: CollaborativeRoomProps) => {
   }, [editing]);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
-  const currentUserType = 'editor';
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const updateTitleHandler = async (
     e: React.KeyboardEvent<HTMLInputElement>
@@ -127,7 +131,9 @@ const CollabRoom = ({ roomId, roomMetadata }: CollaborativeRoomProps) => {
               </SignedIn>
             </div>
           </Header>
-          {clerk.loaded && <Editor />}
+          {clerk.loaded && (
+            <Editor roomId={roomId} currentUserType={currentUserType} />
+          )}
         </div>
       </ClientSideSuspense>
     </RoomProvider>
