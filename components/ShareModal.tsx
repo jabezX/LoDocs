@@ -46,8 +46,6 @@ const ShareModal = ({
       updatedBy: user.info
     });
 
-    setEmail('');
-
     setLoading(false);
   };
 
